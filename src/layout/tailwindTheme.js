@@ -1,6 +1,6 @@
 // theme.js
 
-export const bosh = {
+export const thunder = {
   borderRadius: 0,
   colorPrimary: '#1677ff',
   colors: {
@@ -9,11 +9,3 @@ export const bosh = {
   },
 }
 
-export const profilo = {
-  borderRadius: 10,
-  colorPrimary: '#f00',
-  colors: {
-    background: '#000000',
-    text: '#f00',
-  },
-}

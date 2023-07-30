@@ -5,7 +5,7 @@ import { ConfigProvider, Input } from 'antd'
 import trTR from 'antd/lib/locale/tr_TR'
 import styled, { ThemeProvider } from 'styled-components'
 
-import { bosh, profilo } from './tailwindTheme'
+import { thunder} from './tailwindTheme'
 
 import classNames from 'classnames'
 
@@ -20,24 +20,12 @@ const ButtonContainer = styled.div`
 
 const Theme = (props) => {
   const { children } = props
-  // "theme" değerini state olarak tut
-  const [theme, setTheme] = React.useState(bosh)
-  useEffect(() => {
-    // localStorage'den "theme" değerini al
-    const storedTheme = localStorage.getItem('theme')
-
-    // Eğer "theme" değeri 1, 2 veya 3 ise, "theme" değerini güncelle
-    if (storedTheme === '1' || storedTheme === '2' || storedTheme === '3') {
-      const theme =
-        storedTheme === '1' ? bosh : storedTheme === '2' ? profilo : {}
-      setTheme(theme)
-    }
-  }, [])
+  
   const customTheme = {
-    token: theme,
+    token: thunder,
   }
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={thunder}>
       <ConfigProvider theme={customTheme}>{children}</ConfigProvider>
     </ThemeProvider>
   )

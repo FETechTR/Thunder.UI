@@ -40,7 +40,7 @@ const LoginPage = () => {
     <div className='flex h-screen'>
       <div className='flex-1 flex justify-center items-center bg-loginBg text-white'>
         {/* Sol taraftaki resim */}
-        BAYİ İLETİŞİM FORMU
+        Thunder
       </div>
       <div className='flex-1 flex justify-center items-center'>
         {/* Sağ taraftaki login formu */}
