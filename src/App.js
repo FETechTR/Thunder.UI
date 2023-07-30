@@ -9,7 +9,7 @@ import {
 import { setAuthorizationToken } from './helpers/setAuthorizationToken'
 import jwtDecode from 'jwt-decode'
 import Theme from './layout/ThemeProvider'
-import './app.styles.scss'
+import './app.styles.css'
 
 import Layout from './layout'
 import LoginPage from './pages/Login'
