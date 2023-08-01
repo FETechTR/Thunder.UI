@@ -1,8 +1,74 @@
-version: '3'
-services:
-  web:
-    build:
-      context: .  # Dockerfile'ın bulunduğu dizin
-      dockerfile: Dockerfile
-    ports:
-      - "8080:80"  # Dış dünyada 8080 portu, Docker içinde 80 portu ile eşleşecek
+variables:
+  RELEASE_VER: $CI_REGISTRY_IMAGE:v0.0.0-pre.0
+  #dev ->   v0.2.0-pre.43
+  #stg ->   v0.2.0-stg.15
+  #prod ->  v1.0.6
+
+stages:
+  # - build
+    - test
+    - release
+  # - deploy-dev
+  # - deploy-stage
+
+build:
+  stage: release
+  # Official docker image.
+  image: docker:latest
+  services:
+    - docker:dind
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
+  script:
+    - docker build --pull -t "$RELEASE_VER" .
+    - docker push "$RELEASE_VER"
+  only:
+    - master
+    - develop
+
+
+# test:lint:
+#   stage: test
+#   image: node:13.12.0-alpine
+#   script:
+#     - yarn lint
+#   only:
+#     - Applist-views
+
+#test:unit:
+#  stage: test
+#  script:
+#    - yarn test
+#  only:
+#    - Applist-views
+
+# deploy:storybook:
+#   stage: release
+#   # Official docker image.
+#   image: docker:latest
+#   services:
+#     - docker:dind
+#   before_script:
+#     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
+#   script:
+#     - docker build --pull -t "$RELEASE_STORYBOOK_VER" -f DockerfileStorybook . 
+#     - docker push "$RELEASE_STORYBOOK_VER"
+#   only:
+#     - master
+#     - develop
+    
+# deploy:storybook:
+#   stage: deploy
+#   image: microsoft/azure-cli
+#   artifacts:
+#     paths:
+#       - build/
+#   dependencies:
+#     - build:storybook
+#   before_script:
+#     - echo "This line is overriding global scripts! Do not delete it."
+#   script:
+#     - az storage blob delete-batch -s "\$web" --connection-string $STORYBOOK_AZURE_STORAGE_CONNECTION_STRING
+#     - az storage blob upload-batch -d "\$web" -s build  --connection-string $STORYBOOK_AZURE_STORAGE_CONNECTION_STRING
+#   only:
+#     - develop
